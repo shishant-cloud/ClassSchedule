@@ -18,13 +18,13 @@ app.secret_key = os.environ.get("SESSION_SECRET", "your-secret-key-here")
 # Create our data manager to handle JSON files
 data_manager = DataManager()
 
-# Home page - redirects to login
+# Home page - shows login options
 @app.route('/')
 def home():
     """
     This is the main page that users see first.
     If they're logged in, send them to their dashboard.
-    If not, send them to login page.
+    If not, show them login options (admin or student).
     """
     if 'user_id' in session:
         # User is logged in, send them to their dashboard
@@ -34,42 +34,76 @@ def home():
         else:
             return redirect('/student_dashboard')
     else:
-        # User is not logged in, send them to login page
-        return redirect('/login')
+        # User is not logged in, show them the main welcome page
+        return data_manager.read_html_file('templates/index.html')
 
-# Login page
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+# Admin Login
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
     """
-    This handles user login.
-    GET request shows the login form.
-    POST request processes the login.
+    This handles admin login specifically.
+    Only admin users can login here.
     """
     if request.method == 'POST':
-        # User submitted the login form
+        # Admin submitted the login form
         username = request.form['username']
         password = request.form['password']
         
         # Check if user exists and password is correct
         user = data_manager.validate_user(username, password)
-        if user:
-            # Login successful - save user info in session
+        if user and user['role'] == 'admin':
+            # Admin login successful - save user info in session
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['role'] = user['role']
             
-            # Redirect to appropriate dashboard
-            if user['role'] == 'admin':
-                return redirect('/admin_dashboard')
-            else:
-                return redirect('/student_dashboard')
+            # Redirect to admin dashboard
+            return redirect('/admin_dashboard')
         else:
             # Login failed - show error message
-            error = "Invalid username or password"
-            return data_manager.read_html_file('templates/login.html').replace('{{error}}', error)
+            error = '<div class="alert alert-danger">Invalid admin credentials or not an admin account!</div>'
+            return data_manager.read_html_file('templates/admin_login.html').replace('{{error}}', error)
     
-    # Show login form (GET request)
-    return data_manager.read_html_file('templates/login.html').replace('{{error}}', '')
+    # Show admin login form (GET request)
+    return data_manager.read_html_file('templates/admin_login.html').replace('{{error}}', '')
+
+# Student Login
+@app.route('/student_login', methods=['GET', 'POST'])
+def student_login():
+    """
+    This handles student login specifically.
+    Only student users can login here.
+    """
+    if request.method == 'POST':
+        # Student submitted the login form
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Check if user exists and password is correct
+        user = data_manager.validate_user(username, password)
+        if user and user['role'] == 'student':
+            # Student login successful - save user info in session
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            session['role'] = user['role']
+            
+            # Redirect to student dashboard
+            return redirect('/student_dashboard')
+        else:
+            # Login failed - show error message
+            error = '<div class="alert alert-danger">Invalid student credentials or not a student account!</div>'
+            return data_manager.read_html_file('templates/student_login.html').replace('{{error}}', error)
+    
+    # Show student login form (GET request)
+    return data_manager.read_html_file('templates/student_login.html').replace('{{error}}', '')
+
+# General Login (kept for compatibility)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """
+    General login - redirects to home page to choose login type.
+    """
+    return redirect('/')
 
 # Logout
 @app.route('/logout')
@@ -336,7 +370,7 @@ def admin_settings():
 def register():
     """
     Students can register here using an invite code.
-    This creates a new student account.
+    This creates a new student account and can be accessed via admin's shared link.
     """
     if request.method == 'POST':
         # Student is trying to register
@@ -346,9 +380,17 @@ def register():
         confirm_password = request.form['confirm_password']
         invite_code = request.form['invite_code']
         
-        # Check if the invite code is correct
-        if invite_code != "JOIN2024":  # Simple invite code
-            error = '<div class="alert alert-danger">Invalid invite code! Ask your teacher for the correct code.</div>'
+        # Validate input fields
+        if len(name.strip()) < 2:
+            error = '<div class="alert alert-danger">Name must be at least 2 characters long!</div>'
+            return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
+        
+        if len(username.strip()) < 3:
+            error = '<div class="alert alert-danger">Username must be at least 3 characters long!</div>'
+            return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
+            
+        if len(password) < 6:
+            error = '<div class="alert alert-danger">Password must be at least 6 characters long!</div>'
             return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
         
         # Check if passwords match
@@ -356,18 +398,27 @@ def register():
             error = '<div class="alert alert-danger">Passwords do not match!</div>'
             return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
         
+        # Check if the invite code is correct
+        if invite_code != "JOIN2024":  # Simple invite code
+            error = '<div class="alert alert-danger">Invalid invite code! Ask your teacher for the correct code: <strong>JOIN2024</strong></div>'
+            return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
+        
         # Check if username already exists
-        if data_manager.username_exists(username):
+        if data_manager.username_exists(username.strip()):
             error = '<div class="alert alert-danger">Username already exists! Please choose a different one.</div>'
             return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
         
         # Create new student account
-        data_manager.add_student(name, username, password)
-        success = '<div class="alert alert-success">Account created successfully! You can now login.</div>'
+        data_manager.add_student(name.strip(), username.strip(), password)
+        success = '<div class="alert alert-success"><strong>Account created successfully!</strong><br>You can now <a href="/student_login" class="alert-link">login here</a> with your username and password.</div>'
         return data_manager.read_html_file('templates/register.html').replace('{{error}}', success)
     
-    # Show registration form
-    return data_manager.read_html_file('templates/register.html').replace('{{error}}', '')
+    # Show registration form with pre-filled invite code if coming from admin link
+    invite_code = request.args.get('code', '')  # Get invite code from URL if present
+    html_content = data_manager.read_html_file('templates/register.html')
+    html_content = html_content.replace('{{error}}', '')
+    html_content = html_content.replace('{{invite_code}}', invite_code)
+    return html_content
 
 # Get Invite Link (Admin only)
 @app.route('/invite_link')
@@ -377,15 +428,17 @@ def invite_link():
     Only admin can access this.
     """
     if 'user_id' not in session or session.get('role') != 'admin':
-        return redirect('/login')
+        return redirect('/admin_login')
     
     # Get the current website URL and create invite link
     base_url = request.host_url  # Gets the website's main URL
     invite_url = base_url + "register"
+    invite_url_with_code = base_url + "register?code=JOIN2024"  # Pre-filled code
     invite_code = "JOIN2024"
     
     html_content = data_manager.read_html_file('templates/invite_link.html')
     html_content = html_content.replace('{{invite_url}}', invite_url)
+    html_content = html_content.replace('{{invite_url_with_code}}', invite_url_with_code)
     html_content = html_content.replace('{{invite_code}}', invite_code)
     
     return html_content

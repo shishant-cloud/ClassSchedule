@@ -32,14 +32,30 @@
 
         <!-- Invite information cards -->
         <div class="row">
-            <!-- Registration Link -->
+            <!-- Easy Registration Link (with pre-filled code) -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5>✅ Easy Registration Link (Recommended)</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Send this link to students (invite code will be pre-filled):</p>
+                        <div class="border rounded p-3 bg-light">
+                            <code id="easy-invite-link">{{invite_url_with_code}}</code>
+                        </div>
+                        <button class="btn btn-outline-success btn-sm mt-2" onclick="copyEasyLink()">Copy Easy Link</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Regular Registration Link -->
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Registration Link</h5>
+                        <h5>Regular Registration Link</h5>
                     </div>
                     <div class="card-body">
-                        <p>Send this link to students:</p>
+                        <p>Basic registration link (students need to enter code manually):</p>
                         <div class="border rounded p-3 bg-light">
                             <code id="invite-link">{{invite_url}}</code>
                         </div>
@@ -47,15 +63,18 @@
                     </div>
                 </div>
             </div>
-            
+        </div>
+
+        <!-- Invite Code Row -->
+        <div class="row">
             <!-- Invite Code -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-12 mb-4">
                 <div class="card">
                     <div class="card-header">
                         <h5>Invite Code</h5>
                     </div>
                     <div class="card-body">
-                        <p>Students need this code to register:</p>
+                        <p>Students need this code to register (show them this code):</p>
                         <div class="border rounded p-3 bg-light text-center">
                             <h3 class="text-primary mb-0">{{invite_code}}</h3>
                         </div>
@@ -109,7 +128,7 @@
                         <div class="border rounded p-3 bg-light">
                             <p class="mb-2"><strong>Hi Students!</strong></p>
                             <p class="mb-2">Please register for our classroom scheduler system:</p>
-                            <p class="mb-2">🔗 <strong>Link:</strong> {{invite_url}}</p>
+                            <p class="mb-2">🔗 <strong>Easy Link:</strong> {{invite_url_with_code}}</p>
                             <p class="mb-2">🔑 <strong>Invite Code:</strong> {{invite_code}}</p>
                             <p class="mb-0">Once registered, you can view your schedule, assignments, and attendance!</p>
                         </div>
@@ -129,17 +148,22 @@
 
     <!-- Simple copy functions (basic functionality without JavaScript) -->
     <script>
+        function copyEasyLink() {
+            // Simple alert for the easy link
+            alert('Copy this easy registration link:\n{{invite_url_with_code}}\n\n(The invite code will be pre-filled!)');
+        }
+        
         function copyLink() {
-            // Simple alert for now since we're avoiding complex JS
-            alert('Copy this link: {{invite_url}}');
+            // Simple alert for regular link
+            alert('Copy this link:\n{{invite_url}}');
         }
         
         function copyCode() {
-            alert('Copy this code: {{invite_code}}');
+            alert('Copy this invite code: {{invite_code}}');
         }
         
         function copyMessage() {
-            var message = 'Hi Students! Please register for our classroom scheduler system:\n\nLink: {{invite_url}}\nInvite Code: {{invite_code}}\n\nOnce registered, you can view your schedule, assignments, and attendance!';
+            var message = 'Hi Students! Please register for our classroom scheduler system:\n\nEasy Link (recommended): {{invite_url_with_code}}\nInvite Code: {{invite_code}}\n\nOnce registered, you can view your schedule, assignments, and attendance!';
             alert('Copy this message:\n\n' + message);
         }
     </script>
