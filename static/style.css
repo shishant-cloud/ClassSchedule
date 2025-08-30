@@ -1,0 +1,209 @@
+/* 
+   Custom styles for the Classroom Scheduler
+   This file contains basic CSS to enhance the look of our web app
+   We use simple CSS that's easy to understand for beginners
+*/
+
+/* Body styling - overall page appearance */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container spacing - add some breathing room */
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Card styling - make cards look nice */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    font-weight: bold;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Button styling - consistent button appearance */
+.btn {
+    border-radius: 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 2px;
+}
+
+/* Table styling - make tables easier to read */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+.table td, .table th {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+/* Navigation bar styling */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+/* Form styling - make forms look clean */
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Alert styling - make alerts stand out */
+.alert {
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.alert h6 {
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.alert ul {
+    margin-bottom: 0;
+}
+
+/* Dashboard cards - make them look appealing */
+.card-body.text-center {
+    padding: 30px 20px;
+}
+
+.card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 20px;
+    color: #6c757d;
+}
+
+/* Responsive design - make it work on mobile */
+@media (max-width: 768px) {
+    .container {
+        margin-top: 10px;
+        padding: 0 15px;
+    }
+    
+    .card-body.text-center {
+        padding: 20px 15px;
+    }
+    
+    .table-responsive {
+        font-size: 0.9em;
+    }
+}
+
+/* Status colors for attendance */
+.text-success {
+    color: #28a745 !important;
+    font-weight: bold;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
+
+/* Login page styling */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Empty state styling */
+.text-muted {
+    color: #6c757d;
+}
+
+/* List styling in alerts */
+.alert li {
+    margin-bottom: 5px;
+}
+
+/* Make buttons more accessible */
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+/* Form validation feedback */
+.form-text {
+    font-size: 0.875em;
+    margin-top: 5px;
+}
+
+/* Dashboard welcome section */
+.text-muted {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+/* Calendar events styling */
+.card.mb-2 {
+    border-left: 4px solid #007bff;
+}
+
+.card.mb-2 .card-title {
+    color: #007bff;
+    font-size: 1.1em;
+}
+
+/* Navigation links */
+.nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+/* Table hover effect */
+.table-striped tbody tr:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Loading states and transitions */
+.card, .btn, .alert {
+    transition: all 0.3s ease;
+}
+
+/* Print styles - make it printer friendly */
+@media print {
+    .navbar, .btn, form {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+}

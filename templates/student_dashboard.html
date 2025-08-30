@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="/">Classroom Scheduler</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Welcome message -->
+        <div class="row">
+            <div class="col-12">
+                <h2>Student Dashboard</h2>
+                <p class="text-muted">Welcome, Student! Access your class schedule, assignments, and more.</p>
+            </div>
+        </div>
+
+        <!-- Student features cards -->
+        <div class="row">
+            <!-- View Schedule -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">My Schedule</h5>
+                        <p class="card-text">View your class timetable</p>
+                        <a href="/schedule" class="btn btn-success">View Schedule</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Attendance -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">My Attendance</h5>
+                        <p class="card-text">Check your attendance records</p>
+                        <a href="/attendance" class="btn btn-success">View Attendance</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Assignments</h5>
+                        <p class="card-text">Access assignments and resources</p>
+                        <a href="/assignments" class="btn btn-success">View Assignments</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Calendar</h5>
+                        <p class="card-text">Important dates and events</p>
+                        <a href="/calendar" class="btn btn-success">View Calendar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Student Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">📅 View your class schedule and timetable</li>
+                            <li class="list-group-item">📊 Check your attendance records</li>
+                            <li class="list-group-item">📚 Access assignments and resource links</li>
+                            <li class="list-group-item">🗓️ See important dates and events</li>
+                            <li class="list-group-item">🔒 Read-only access to protect data integrity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

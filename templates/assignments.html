@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Classroom Scheduler</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Page header -->
+        <div class="row">
+            <div class="col-12">
+                <h2>Assignments & Resources</h2>
+                <p class="text-muted">Access assignments, materials, and resource links</p>
+            </div>
+        </div>
+
+        <!-- Add new assignment form (admin only) -->
+        <div class="row mb-4" {{admin_only}}>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Add New Assignment</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/assignments">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="title" class="form-label">Assignment Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="due_date" class="form-label">Due Date</label>
+                                    <input type="date" class="form-control" id="due_date" name="due_date" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="link" class="form-label">Resource Link (Google Drive, etc.)</label>
+                                <input type="url" class="form-control" id="link" name="link" placeholder="https://drive.google.com/..." required>
+                                <small class="form-text text-muted">Add a link to Google Drive, Dropbox, or any other cloud storage</small>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Add Assignment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignments table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Available Assignments</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Due Date</th>
+                                        <th>Resource Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{assignment_rows}}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Message if no assignments -->
+                        <div id="no-assignments" style="display: none;">
+                            <div class="text-center text-muted">
+                                <p>No assignments available yet.</p>
+                                <small>Admins can add assignments using the form above.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions for using cloud storage -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6>📁 Cloud Storage Instructions:</h6>
+                    <ul class="mb-0">
+                        <li><strong>Google Drive:</strong> Upload files to Drive, click "Share", and copy the link</li>
+                        <li><strong>Dropbox:</strong> Upload files and generate a shareable link</li>
+                        <li><strong>OneDrive:</strong> Upload files and use the "Share" feature</li>
+                        <li><strong>Students:</strong> Click "Open Link" to access assignment materials</li>
+                        <li><strong>Tip:</strong> Make sure links are set to "Anyone with the link can view"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

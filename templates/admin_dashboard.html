@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Classroom Scheduler</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Welcome message -->
+        <div class="row">
+            <div class="col-12">
+                <h2>Admin Dashboard</h2>
+                <p class="text-muted">Welcome, Administrator! You can manage all aspects of the classroom scheduler from here.</p>
+            </div>
+        </div>
+
+        <!-- Quick actions cards -->
+        <div class="row">
+            <!-- Schedule Management -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Schedule</h5>
+                        <p class="card-text">Manage class schedules and timetables</p>
+                        <a href="/schedule" class="btn btn-primary">Manage Schedule</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Management -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Attendance</h5>
+                        <p class="card-text">Track student attendance records</p>
+                        <a href="/attendance" class="btn btn-primary">Manage Attendance</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments Repository -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Assignments</h5>
+                        <p class="card-text">Manage assignments and resource links</p>
+                        <a href="/assignments" class="btn btn-primary">Manage Assignments</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Events -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Calendar</h5>
+                        <p class="card-text">Manage important dates and events</p>
+                        <a href="/calendar" class="btn btn-primary">Manage Calendar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent activity section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Admin Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">✅ Add and modify class schedules</li>
+                            <li class="list-group-item">✅ Track student attendance</li>
+                            <li class="list-group-item">✅ Upload assignments and resource links</li>
+                            <li class="list-group-item">✅ Manage calendar events and important dates</li>
+                            <li class="list-group-item">✅ All data stored in simple JSON files (text files)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student dashboard access -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6>Want to see the student view?</h6>
+                    <a href="/student_dashboard" class="btn btn-outline-info btn-sm">Switch to Student Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

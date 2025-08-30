@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Classroom Scheduler</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Page header -->
+        <div class="row">
+            <div class="col-12">
+                <h2>Class Schedule</h2>
+                <p class="text-muted">View and manage the class timetable</p>
+            </div>
+        </div>
+
+        <!-- Add new class form (admin only) -->
+        <div class="row mb-4" {{admin_only}}>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Add New Class</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/schedule">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="class_name" class="form-label">Class Name</label>
+                                    <input type="text" class="form-control" id="class_name" name="class_name" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="room" class="form-label">Room</label>
+                                    <input type="text" class="form-control" id="room" name="room" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="day" class="form-label">Day</label>
+                                    <select class="form-control" id="day" name="day" required>
+                                        <option value="">Select Day</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="time" class="form-label">Time</label>
+                                    <input type="text" class="form-control" id="time" name="time" placeholder="e.g., 09:00-10:00" required>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="teacher" class="form-label">Teacher</label>
+                                    <input type="text" class="form-control" id="teacher" name="teacher" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Add Class</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Weekly Schedule</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Time</th>
+                                        <th>Class</th>
+                                        <th>Room</th>
+                                        <th>Teacher</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{schedule_rows}}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Message if no classes -->
+                        <div id="no-classes" style="display: none;">
+                            <div class="text-center text-muted">
+                                <p>No classes scheduled yet.</p>
+                                <small>Admins can add classes using the form above.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips for students -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6>💡 Schedule Tips:</h6>
+                    <ul class="mb-0">
+                        <li>Check your schedule daily for any updates</li>
+                        <li>Note the room numbers to avoid confusion</li>
+                        <li>Arrive a few minutes early to each class</li>
+                        <li>Contact your teacher if you have questions about timing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Classroom Scheduler</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Page header -->
+        <div class="row">
+            <div class="col-12">
+                <h2>Attendance Records</h2>
+                <p class="text-muted">Track and view student attendance</p>
+            </div>
+        </div>
+
+        <!-- Mark attendance form (admin only) -->
+        <div class="row mb-4" {{admin_only}}>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Mark Attendance</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/attendance">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="student_name" class="form-label">Student Name</label>
+                                    <input type="text" class="form-control" id="student_name" name="student_name" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="class_name" class="form-label">Class Name</label>
+                                    <input type="text" class="form-control" id="class_name" name="class_name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="date" name="date" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-control" id="status" name="status" required>
+                                        <option value="">Select Status</option>
+                                        <option value="present">Present</option>
+                                        <option value="absent">Absent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Mark Attendance</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance records table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Attendance Records</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Student</th>
+                                        <th>Class</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{attendance_rows}}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Message if no records -->
+                        <div id="no-records" style="display: none;">
+                            <div class="text-center text-muted">
+                                <p>No attendance records found.</p>
+                                <small>Admins can mark attendance using the form above.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance statistics (future enhancement) -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6>📊 Attendance Guidelines:</h6>
+                    <ul class="mb-0">
+                        <li>Regular attendance is important for academic success</li>
+                        <li>Contact your teacher if you need to miss a class</li>
+                        <li>Green status means "Present", Red status means "Absent"</li>
+                        <li>Admin can mark attendance for each class session</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

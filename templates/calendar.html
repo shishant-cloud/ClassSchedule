@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Classroom Scheduler</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Page header -->
+        <div class="row">
+            <div class="col-12">
+                <h2>Academic Calendar</h2>
+                <p class="text-muted">Important dates and events</p>
+            </div>
+        </div>
+
+        <!-- Add new event form (admin only) -->
+        <div class="row mb-4" {{admin_only}}>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Add New Event</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/calendar">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="event_name" class="form-label">Event Name</label>
+                                    <input type="text" class="form-control" id="event_name" name="event_name" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="event_date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="event_date" name="event_date" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Add Event</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events display -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Upcoming Events & Important Dates</h5>
+                    </div>
+                    <div class="card-body">
+                        {{event_items}}
+                        
+                        <!-- Message if no events -->
+                        <div id="no-events" style="display: none;">
+                            <div class="text-center text-muted">
+                                <p>No events scheduled yet.</p>
+                                <small>Admins can add events using the form above.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar tips -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-success">
+                    <h6>🗓️ Calendar Features:</h6>
+                    <ul class="mb-0">
+                        <li><strong>Important Dates:</strong> Exams, holidays, deadlines, and special events</li>
+                        <li><strong>Academic Events:</strong> Field trips, guest lectures, and workshops</li>
+                        <li><strong>Reminders:</strong> Check the calendar regularly for updates</li>
+                        <li><strong>Planning:</strong> Use these dates to plan your study schedule</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick reference -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>📚 Academic Calendar Types</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li>🎓 <strong>Exams:</strong> Midterm and final exams</li>
+                            <li>📝 <strong>Assignment Due:</strong> Project deadlines</li>
+                            <li>🏖️ <strong>Holidays:</strong> School breaks and holidays</li>
+                            <li>🎉 <strong>Events:</strong> School functions and activities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>💡 Tips for Students</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li>⏰ Set reminders for important dates</li>
+                            <li>📅 Plan your study schedule around events</li>
+                            <li>🔔 Check for calendar updates regularly</li>
+                            <li>📧 Ask teachers about upcoming events</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
