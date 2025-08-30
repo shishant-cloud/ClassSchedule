@@ -25,8 +25,10 @@
         <!-- Page header -->
         <div class="row">
             <div class="col-12">
-                <h2>Class Schedule</h2>
-                <p class="text-muted">View and manage the class timetable</p>
+                <h2 {{admin_only}}>Class Schedule</h2>
+                <h2 style="display:none" {{student_only}}>My Class Schedule</h2>
+                <p class="text-muted" {{admin_only}}>View and manage the class timetable</p>
+                <p class="text-muted" style="display:none" {{student_only}}>View your weekly class schedule</p>
             </div>
         </div>
 
@@ -88,7 +90,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Weekly Schedule</h5>
+                        <h5 {{admin_only}}>Weekly Schedule</h5>
+                        <h5 style="display:none" {{student_only}}>My Weekly Schedule</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -111,8 +114,10 @@
                         <!-- Message if no classes -->
                         <div id="no-classes" style="display: none;">
                             <div class="text-center text-muted">
-                                <p>No classes scheduled yet.</p>
-                                <small>Admins can add classes using the form above.</small>
+                                <p {{admin_only}}>No classes scheduled yet.</p>
+                                <p style="display:none" {{student_only}}>No classes have been scheduled yet.</p>
+                                <small {{admin_only}}>Admins can add classes using the form above.</small>
+                                <small style="display:none" {{student_only}}>Your teacher will add classes to your schedule.</small>
                             </div>
                         </div>
                     </div>

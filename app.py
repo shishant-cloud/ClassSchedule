@@ -179,11 +179,13 @@ def schedule():
     
     html_content = html_content.replace('{{schedule_rows}}', schedule_rows)
     
-    # Show or hide add form based on user role
+    # Show or hide content based on user role
     if session.get('role') == 'admin':
         html_content = html_content.replace('{{admin_only}}', '')
+        html_content = html_content.replace('{{student_only}}', 'style="display:none"')
     else:
         html_content = html_content.replace('{{admin_only}}', 'style="display:none"')
+        html_content = html_content.replace('{{student_only}}', '')
     
     return html_content
 
@@ -208,30 +210,57 @@ def attendance():
         # Add attendance record
         data_manager.mark_attendance(student_name, class_name, date, status)
     
-    # Get all attendance records and show them
-    attendance_records = data_manager.get_attendance_records()
+    # Get attendance records (filter for students to show only their own)
+    all_attendance_records = data_manager.get_attendance_records()
     html_content = data_manager.read_html_file('templates/attendance.html')
+    
+    # Filter records based on user role
+    if session.get('role') == 'admin':
+        # Admin sees all records
+        attendance_records = all_attendance_records
+    else:
+        # Students see only their own records
+        current_user = data_manager.get_user_by_id(session['user_id'])
+        if current_user:
+            # Filter to show only records for this student
+            attendance_records = [record for record in all_attendance_records 
+                                if record['student_name'].lower() == current_user['name'].lower()]
+        else:
+            attendance_records = []
     
     # Build the attendance table
     attendance_rows = ""
     for record in attendance_records:
         status_class = "text-success" if record['status'] == 'present' else "text-danger"
-        attendance_rows += f"""
-        <tr>
-            <td>{record['date']}</td>
-            <td>{record['student_name']}</td>
-            <td>{record['class_name']}</td>
-            <td><span class="{status_class}">{record['status'].title()}</span></td>
-        </tr>
-        """
+        if session.get('role') == 'admin':
+            # Admin sees student name column
+            attendance_rows += f"""
+            <tr>
+                <td>{record['date']}</td>
+                <td>{record['student_name']}</td>
+                <td>{record['class_name']}</td>
+                <td><span class="{status_class}">{record['status'].title()}</span></td>
+            </tr>
+            """
+        else:
+            # Students don't need to see their own name in every row
+            attendance_rows += f"""
+            <tr>
+                <td>{record['date']}</td>
+                <td>{record['class_name']}</td>
+                <td><span class="{status_class}">{record['status'].title()}</span></td>
+            </tr>
+            """
     
     html_content = html_content.replace('{{attendance_rows}}', attendance_rows)
     
-    # Show or hide add form based on user role
+    # Show or hide content based on user role
     if session.get('role') == 'admin':
         html_content = html_content.replace('{{admin_only}}', '')
+        html_content = html_content.replace('{{student_only}}', 'style="display:none"')
     else:
         html_content = html_content.replace('{{admin_only}}', 'style="display:none"')
+        html_content = html_content.replace('{{student_only}}', '')
     
     return html_content
 
@@ -274,11 +303,13 @@ def assignments():
     
     html_content = html_content.replace('{{assignment_rows}}', assignment_rows)
     
-    # Show or hide add form based on user role
+    # Show or hide content based on user role
     if session.get('role') == 'admin':
         html_content = html_content.replace('{{admin_only}}', '')
+        html_content = html_content.replace('{{student_only}}', 'style="display:none"')
     else:
         html_content = html_content.replace('{{admin_only}}', 'style="display:none"')
+        html_content = html_content.replace('{{student_only}}', '')
     
     return html_content
 
@@ -321,11 +352,13 @@ def calendar():
     
     html_content = html_content.replace('{{event_items}}', event_items)
     
-    # Show or hide add form based on user role
+    # Show or hide content based on user role
     if session.get('role') == 'admin':
         html_content = html_content.replace('{{admin_only}}', '')
+        html_content = html_content.replace('{{student_only}}', 'style="display:none"')
     else:
         html_content = html_content.replace('{{admin_only}}', 'style="display:none"')
+        html_content = html_content.replace('{{student_only}}', '')
     
     return html_content
 
