@@ -64,9 +64,10 @@ class DataManager:
         """
         Read an HTML file and return its content.
         This is used because we can't use Jinja templates.
+        Always reads as UTF-8 to avoid encoding errors.
         """
         try:
-            with open(filename, 'r') as file:
+            with open(filename, 'r', encoding='utf-8') as file:
                 return file.read()
         except FileNotFoundError:
             return "<html><body><h1>File not found</h1></body></html>"
