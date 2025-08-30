@@ -1,5 +1,10 @@
-# This file handles all our data operations
-# It reads and writes to JSON files (which are just text files with organized data)
+# DATA MANAGER - This handles all our data storage
+# 
+# What does this do?
+# - Saves information to files (like a simple database)
+# - Reads information from files
+# - JSON files are just text files that store data in an organized way
+# - Think of JSON like a digital filing cabinet with labeled folders
 
 import json
 import os
@@ -264,3 +269,53 @@ class DataManager:
         events = self.read_json_file('data/events.json')
         # Sort events by date (most recent first)
         return sorted(events, key=lambda x: x['event_date'], reverse=True)
+    
+    def change_admin_password(self, user_id, new_password):
+        """
+        Change admin's password.
+        This updates the admin's password in the users file.
+        """
+        users = self.read_json_file('data/users.json')
+        
+        # Find the admin user and update password
+        for user in users:
+            if user['id'] == user_id and user['role'] == 'admin':
+                user['password'] = new_password
+                break
+        
+        # Save the updated users list
+        self.write_json_file('data/users.json', users)
+    
+    def username_exists(self, username):
+        """
+        Check if a username already exists.
+        Returns True if username exists, False if it doesn't.
+        """
+        users = self.read_json_file('data/users.json')
+        
+        # Check each user to see if username matches
+        for user in users:
+            if user['username'] == username:
+                return True
+        return False
+    
+    def add_student(self, name, username, password):
+        """
+        Add a new student to the system.
+        This creates a new student account.
+        """
+        users = self.read_json_file('data/users.json')
+        
+        # Create new student account
+        new_student = {
+            'id': len(users) + 1,  # Simple ID assignment
+            'username': username,
+            'password': password,
+            'role': 'student',
+            'name': name,
+            'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        # Add to our users list and save
+        users.append(new_student)
+        self.write_json_file('data/users.json', users)

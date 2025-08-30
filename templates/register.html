@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - Classroom Scheduler</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center">Student Registration</h3>
+                        <p class="text-center text-muted mb-0">Create your student account</p>
+                    </div>
+                    <div class="card-body">
+                        <!-- Show error or success message -->
+                        {{error}}
+                        
+                        <!-- Registration form -->
+                        <form method="POST" action="/register">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username" required>
+                                <small class="form-text text-muted">This will be used to login to your account</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <small class="form-text text-muted">Choose a secure password</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="invite_code" class="form-label">Invite Code</label>
+                                <input type="text" class="form-control" id="invite_code" name="invite_code" placeholder="Enter the invite code from your teacher" required>
+                                <small class="form-text text-muted">Ask your teacher for the invite code</small>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success w-100">Create Account</button>
+                        </form>
+                        
+                        <hr>
+                        
+                        <!-- Login link -->
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? 
+                                <a href="/login" class="text-decoration-none">Login here</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Information card -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h6>Registration Instructions</h6>
+                    </div>
+                    <div class="card-body">
+                        <ol>
+                            <li>Get the invite code from your teacher or admin</li>
+                            <li>Fill in your full name and choose a username</li>
+                            <li>Create a secure password</li>
+                            <li>Enter the invite code</li>
+                            <li>Click "Create Account" to register</li>
+                            <li>Login with your new account</li>
+                        </ol>
+                        <div class="alert alert-info mt-3">
+                            <small><strong>Note:</strong> If you don't have an invite code, ask your teacher or administrator to provide one.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -294,3 +294,98 @@ def calendar():
         html_content = html_content.replace('{{admin_only}}', 'style="display:none"')
     
     return html_content
+
+# Admin Settings - Change Password
+@app.route('/admin_settings', methods=['GET', 'POST'])
+def admin_settings():
+    """
+    Admin can change their password here.
+    Only admin users can access this page.
+    """
+    if 'user_id' not in session or session.get('role') != 'admin':
+        return redirect('/login')
+    
+    message = ""
+    if request.method == 'POST':
+        # Admin wants to change password
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+        
+        # Check if current password is correct
+        admin_user = data_manager.get_user_by_id(session['user_id'])
+        if admin_user is None or admin_user['password'] != current_password:
+            message = '<div class="alert alert-danger">Current password is wrong!</div>'
+        elif new_password != confirm_password:
+            message = '<div class="alert alert-danger">New passwords do not match!</div>'
+        elif len(new_password) < 6:
+            message = '<div class="alert alert-danger">New password must be at least 6 characters!</div>'
+        else:
+            # Change the password
+            data_manager.change_admin_password(session['user_id'], new_password)
+            message = '<div class="alert alert-success">Password changed successfully!</div>'
+    
+    # Show the settings page
+    html_content = data_manager.read_html_file('templates/admin_settings.html')
+    html_content = html_content.replace('{{message}}', message)
+    
+    return html_content
+
+# Student Registration
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    """
+    Students can register here using an invite code.
+    This creates a new student account.
+    """
+    if request.method == 'POST':
+        # Student is trying to register
+        name = request.form['name']
+        username = request.form['username']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        invite_code = request.form['invite_code']
+        
+        # Check if the invite code is correct
+        if invite_code != "JOIN2024":  # Simple invite code
+            error = '<div class="alert alert-danger">Invalid invite code! Ask your teacher for the correct code.</div>'
+            return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
+        
+        # Check if passwords match
+        if password != confirm_password:
+            error = '<div class="alert alert-danger">Passwords do not match!</div>'
+            return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
+        
+        # Check if username already exists
+        if data_manager.username_exists(username):
+            error = '<div class="alert alert-danger">Username already exists! Please choose a different one.</div>'
+            return data_manager.read_html_file('templates/register.html').replace('{{error}}', error)
+        
+        # Create new student account
+        data_manager.add_student(name, username, password)
+        success = '<div class="alert alert-success">Account created successfully! You can now login.</div>'
+        return data_manager.read_html_file('templates/register.html').replace('{{error}}', success)
+    
+    # Show registration form
+    return data_manager.read_html_file('templates/register.html').replace('{{error}}', '')
+
+# Get Invite Link (Admin only)
+@app.route('/invite_link')
+def invite_link():
+    """
+    Shows the invite link that admin can share with students.
+    Only admin can access this.
+    """
+    if 'user_id' not in session or session.get('role') != 'admin':
+        return redirect('/login')
+    
+    # Get the current website URL and create invite link
+    base_url = request.host_url  # Gets the website's main URL
+    invite_url = base_url + "register"
+    invite_code = "JOIN2024"
+    
+    html_content = data_manager.read_html_file('templates/invite_link.html')
+    html_content = html_content.replace('{{invite_url}}', invite_url)
+    html_content = html_content.replace('{{invite_code}}', invite_code)
+    
+    return html_content

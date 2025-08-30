@@ -1,7 +1,14 @@
 /* 
-   Custom styles for the Classroom Scheduler
-   This file contains basic CSS to enhance the look of our web app
-   We use simple CSS that's easy to understand for beginners
+   SIMPLE CSS STYLES for Classroom Scheduler
+   
+   What is CSS? It makes our website look pretty!
+   Think of HTML as the skeleton and CSS as the clothes and makeup
+   
+   How to read CSS:
+   selector { property: value; }
+   
+   Example: body { color: red; } 
+   This makes all text in the body red
 */
 
 /* Body styling - overall page appearance */
